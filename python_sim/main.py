@@ -3,6 +3,9 @@ import sys
 import matplotlib.pyplot as plt
 from scipy.interpolate import PchipInterpolator, interp1d
 
+# Gráficas
+fig, axs = plt.subplots(2, 3)
+
 # data
 lambert = np.loadtxt("./archivos/Lamb.txt", dtype=float)
 emf = np.loadtxt("./archivos/EMF_flipdim.txt", dtype=float)
@@ -19,7 +22,7 @@ corriente = corriente[:: int(muestreo_original / muestreo_deseado)]
 tension = tension[:: int(muestreo_original / muestreo_deseado)]
 
 muestreo_deseado /= 3600
-cant_muestras = int(len(corriente) / 4)
+cant_muestras = int(len(corriente))  # / 4)
 
 # batería
 bat_ci = 0.1
@@ -95,10 +98,12 @@ for EKF in range(2):
         if not EKF:
             R1 = np.array([[1, 0], [0, 10]])
             C = np.array([0, 1])
-            K = Pb @ C.T * (1.0 / (R2 + C @ Pb @ C.T)) *0
-            # K = Pb @ C.T @ np.linalg.inv(1.0 / (R2 + C @ Pb @ C.T))
+            K = Pb @ C.T * (1.0 / (R2 + C @ Pb @ C.T))
             Xe = Xb + K * (Xm - Xb[1])
-            P = np.linalg.inv(np.linalg.inv(Pb) + C.T @ C / R2)
+            P = np.linalg.inv(
+                np.linalg.inv(Pb) + np.array([[0], [1]]) @ np.array([[0, 1]]) / R2
+            )
+
             Xb = A @ Xe + B * corriente[i]
             Pb = A @ P @ A.T + R1
 
@@ -106,8 +111,7 @@ for EKF in range(2):
         else:
             R1 = np.array([[0.1, 0], [0, 10]])
             C = np.array([0, df])
-            K = Pb @ C.T * 1.0 / (R2 + C @ Pb @ C.T) *0
-            # K = Pb @ C.T @ np.linalg.inv(R2 + C @ Pb @ C.T)
+            K = Pb @ C.T * 1.0 / (R2 + C @ Pb @ C.T) * 0
             Vhat[i] = interp_emf_pchip(Xb[1]) - corriente[i] * r
             Xe = Xb + K * (tension[i] - Vhat[i])
             P = np.linalg.inv(np.linalg.inv(Pb) + C.T @ C / R2)
@@ -161,46 +165,40 @@ for EKF in range(2):
     J[EKF] = np.median(ne[ne < 60])
 
     # Plot
-    plt.figure()
-    plt.plot(TE, "--", label="Real")
-    plt.plot(TT, "--", label="Prediccion")
-    plt.title(f"EKF = {EKF}")
-    plt.ylabel("Tiempo remanente")
-    plt.legend()
-    plt.grid(True)
+    axs[0, EKF].plot(TE, "--", label="Real")
+    axs[0, EKF].plot(TT, "--", label="Prediccion")
+    axs[0, EKF].set_title(f"EKF = {EKF}")
+    axs[0, EKF].set_ylabel("Tiempo remanente")
+    axs[0, EKF].legend()
+    axs[0, EKF].grid(True)
 
 # --- Resultados finales ---
 minJ = np.min(J)
 idx = np.argmin(J)
 
-plt.figure(9)
-plt.plot(corriente)
-plt.title("Registro de corriente del ensayo")
+axs[0, 2].plot(corriente)
+axs[0, 2].set_title("Registro de corriente del ensayo")
 
-plt.figure(31)
-plt.plot(tension[:-1], label="Real")
-plt.plot(Vhat, label="EKF")
-plt.plot(Vh, label="KF")
-plt.legend()
-plt.title("Tensiones estimadas")
+axs[1, 0].plot(tension[:-1], label="Real")
+axs[1, 0].plot(Vhat, label="EKF")
+axs[1, 0].plot(Vh, label="KF")
+axs[1, 0].legend()
+axs[1, 0].set_title("Tensiones estimadas")
 
-plt.figure(41)
-plt.plot(TE, "--", label="Real")
-plt.plot(TT, "--", label="Prediccion")
-np.set_printoptions(threshold=sys.maxsize)
-print(TT)
-plt.title("Tiempo remanente")
-plt.legend()
-plt.grid(True)
+axs[1, 1].plot(TE, "--", label="Real")
+axs[1, 1].plot(TT, "--", label="Prediccion")
+axs[1, 1].legend()
+axs[1, 1].set_title("Tiempo remanente")
+axs[1, 1].legend()
+axs[1, 1].grid(True)
 
-plt.figure(51)
-plt.plot(Se, "--", label="Se")
-plt.plot(XXe, "--", label="XXe")
-plt.title("Tiempo remanente")
-plt.legend()
-plt.grid(True)
+axs[1, 2].plot(Se, "--", label="Se")
+axs[1, 2].plot(XXe, "--", label="XXe")
+axs[1, 2].legend()
+axs[1, 2].grid(True)
 
 plt.show()
+
 
 def main():
     pass
