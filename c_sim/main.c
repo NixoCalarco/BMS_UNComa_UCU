@@ -107,6 +107,7 @@ void test() {
 }
 
 void print_matrix(Matrix A) {
+    puts("");
     for (size_t i = 0; i < A.fil; ++i) {
         for (size_t j = 0; j < A.col; ++j)
             printf("%f ", A.mat[i][j]);
@@ -174,8 +175,8 @@ int main() {
                 Matrix C = {1, 2, {{0, 1}}};
 
                 Matrix K = scalar_mult(
-                    (1. / R2 +
-                     (matrix_mult(matrix_mult(C, Pb), transpose(C))).mat[0][0]),
+                    (1. / (R2 + (matrix_mult(matrix_mult(C, Pb), transpose(C)))
+                                    .mat[0][0])),
                     matrix_mult(Pb, transpose(C)));
 
                 Matrix Xe = matrix_sum(Xb, scalar_mult(Xm - Xb.mat[0][1], K));
@@ -190,6 +191,8 @@ int main() {
 
                 Vh[i] = inverse_emf(Xb.mat[0][1]) - corriente[i] * r;
             } else {
+                Matrix R1 = {2, 2, {{.1, 0}, {0, 10}}};
+                Matrix C = {1, 2, {{0, df}}};
             }
         }
     }

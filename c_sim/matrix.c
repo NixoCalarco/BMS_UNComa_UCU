@@ -17,7 +17,7 @@ Matrix transpose(Matrix A) {
 
 Matrix matrix_mult(Matrix A, Matrix B) {
     if (A.col != B.fil) {
-        puts("oops");
+        puts("oops - mult");
         exit(1);
     }
 
@@ -79,7 +79,7 @@ Matrix scalar_div(double s, Matrix A) {
 
 Matrix inverse(Matrix A) {
     if (A.fil != 2 || A.col != 2) {
-        puts("oops");
+        puts("oops - inv");
         exit(1);
     }
 
@@ -88,7 +88,7 @@ Matrix inverse(Matrix A) {
         (A.mat[0][0] * A.mat[1][1]) - (A.mat[0][1] * A.mat[1][0]);
 
     if (determinante == 0) {
-        puts("oops");
+        puts("oops - inv : det = 0");
         exit(1);
     }
 
