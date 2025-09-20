@@ -1,7 +1,7 @@
 #ifndef BATERIA_H
 #define BATERIA_H
 
-int cant_muestras = 57475;
+#define BAT_N 57475;
 
 double voltaje[] = {
     3.285573E+3, 3.285573E+3, 3.285573E+3, 3.285573E+3, 3.285573E+3,

@@ -35,6 +35,15 @@ Matrix matrix_mult(Matrix A, Matrix B) {
     return C;
 }
 
+Matrix matrix_sum(Matrix A, Matrix B) {
+    return (Matrix){
+        2,
+        2,
+        {{A.mat[0][0] + B.mat[0][0], A.mat[0][1] + B.mat[0][1]},
+         {A.mat[1][0] + B.mat[1][0], A.mat[1][1] + B.mat[1][1]}},
+    };
+}
+
 Matrix scalar_sum(double s, Matrix A) {
     Matrix B = {A.fil, A.col, {}};
     for (size_t i = 0; i < A.fil; ++i) {
@@ -66,4 +75,25 @@ Matrix scalar_div(double s, Matrix A) {
     }
 
     return B;
+}
+
+Matrix inverse(Matrix A) {
+    if (A.fil != 2 || A.col != 2) {
+        puts("oops");
+        exit(1);
+    }
+
+    // por suerte invertir una 2x2 es una pavada
+    double determinante =
+        (A.mat[0][0] * A.mat[1][1]) - (A.mat[0][1] * A.mat[1][0]);
+
+    if (determinante == 0) {
+        puts("oops");
+        exit(1);
+    }
+
+    Matrix B = {
+        2, 2, {{A.mat[1][1], -A.mat[0][1]}, {-A.mat[1][0], A.mat[0][0]}}};
+
+    return scalar_div(determinante, B);
 }

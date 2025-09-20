@@ -10,15 +10,15 @@ static inline double linear_interp(double x, double x0, double x1, double y0,
     return y0 + ((x - x0) / (x1 - x0)) * (y1 - y0);
 }
 
-static inline double binary_search(double x, double lut_x[static N],
-                                   double lut_y[static N]) {
+static inline double binary_search(double x, double lut_x[static EMF_N],
+                                   double lut_y[static EMF_N]) {
     if (x < lut_x[0])
         return emf_y[0];
 
-    if (x > lut_x[N - 1])
-        return lut_y[N - 1];
+    if (x > lut_x[EMF_N - 1])
+        return lut_y[EMF_N - 1];
 
-    int low = 0, high = N - 1;
+    int low = 0, high = EMF_N - 1;
     while (high - low > 1) {
         int mid = (low + high) / 2;
         if (x < lut_x[mid])

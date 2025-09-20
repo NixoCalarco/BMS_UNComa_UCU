@@ -34,10 +34,14 @@ Matrix transpose(Matrix A);
 
 Matrix matrix_mult(Matrix A, Matrix B);
 
+Matrix matrix_sum(Matrix A, Matrix B);
+
 Matrix scalar_sum(double s, Matrix A);
 
 Matrix scalar_mult(double s, Matrix A);
 
 Matrix scalar_div(double s, Matrix A);
+
+Matrix inverse(Matrix A);
 
 #endif
