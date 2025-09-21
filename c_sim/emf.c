@@ -13,7 +13,7 @@ static inline double linear_interp(double x, double x0, double x1, double y0,
 static inline double binary_search(double x, double lut_x[static EMF_N],
                                    double lut_y[static EMF_N]) {
     if (x < lut_x[0])
-        return emf_y[0];
+        return lut_y[0];
 
     if (x > lut_x[EMF_N - 1])
         return lut_y[EMF_N - 1];
