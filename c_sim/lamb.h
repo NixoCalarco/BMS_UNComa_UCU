@@ -7,7 +7,7 @@ typedef struct {
     double x, y;
 } LambEntry;
 
-LambEntry lambert[] = {
+static LambEntry lambert[] = {
     {0, 0},
     {0.001, 0.00099900149733853083},
     {0.002, 0.0019960119574993118},

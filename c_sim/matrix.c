@@ -36,12 +36,20 @@ Matrix matrix_mult(Matrix A, Matrix B) {
 }
 
 Matrix matrix_sum(Matrix A, Matrix B) {
-    return (Matrix){
-        2,
-        2,
-        {{A.mat[0][0] + B.mat[0][0], A.mat[0][1] + B.mat[0][1]},
-         {A.mat[1][0] + B.mat[1][0], A.mat[1][1] + B.mat[1][1]}},
-    };
+    if (A.col != B.col || A.fil != B.fil) {
+        puts("oops - sum");
+        exit(1);
+    }
+
+    Matrix C = {A.fil, A.col, {}};
+
+    for (size_t i = 0; i < A.fil; ++i) {
+        for (size_t j = 0; j < A.col; ++j) {
+            C.mat[i][j] = A.mat[i][j] + B.mat[i][j];
+        }
+    }
+
+    return C;
 }
 
 Matrix scalar_sum(double s, Matrix A) {

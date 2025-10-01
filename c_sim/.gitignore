@@ -1,2 +1,4 @@
 build/*
 archivos/*
+plot/.venv/*
+plot/__pycache__
