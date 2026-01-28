@@ -6,7 +6,7 @@ BUILD_DIR = build
 
 # archivitos
 SRC_DIR = .
-SRC = $(addprefix $(SRC_DIR)/, main.c matrix.c emf.c)
+SRC = $(addprefix $(SRC_DIR)/, main.c matrix.c emf.c )
 
 # ejecutable principal
 BIN = $(BUILD_DIR)/bin

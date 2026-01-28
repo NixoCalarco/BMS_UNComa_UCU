@@ -1,7 +1,7 @@
 #ifndef BATERIA_H
 #define BATERIA_H
 
-#define BAT_N 57475;
+#define BAT_N 57475
 
 static double voltaje[] = {
     3.285573E+3, 3.285573E+3, 3.285573E+3, 3.285573E+3, 3.285573E+3,

@@ -7,16 +7,16 @@
 #include "bateria.h"
 #include "emf.h"
 #include "lamb.h"
+// #include "lambert_w.h"
 #include "matrix.h"
 
 /**
  * algunas utilidades
  */
 
-constexpr int cant_muestras = BAT_N
+constexpr int cant_muestras = BAT_N;
 
-    typedef double
-        d_buff[cant_muestras]; // tipo array para facilitar el manejo de memoria
+typedef double d_buff[cant_muestras]; // tipo array para facilitar el manejo de memoria
 
 static void *alloc(size_t size) {
     void *p = malloc(size);
@@ -262,6 +262,7 @@ int main() {
 
                 double arg = -(t2 / b) * exp(t1 / b);
 
+                // double w = lambert_w(arg, 0, 0);
                 int m2 = 0;
                 for (int i = 0; i < LAMB_N; ++i) {
                     double x1 = fabs(lambert[m2].x - arg);
